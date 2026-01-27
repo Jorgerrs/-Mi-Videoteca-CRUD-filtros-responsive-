@@ -1,0 +1,116 @@
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Videoteca</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+ <header class="navbar">
+    <div class="navbar__left">
+      <span class="logo">🎬</span>
+      <h1 class="brand">Mi Videoteca</h1>
+    </div>
+
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+
+    <nav class="nav" id="nav">
+      <a href="#" class="nav__link">Inicio</a>
+      <a href="#" class="nav__link">Mi lista</a>
+      <a href="#" class="nav__link">Ajustes</a>
+    </nav>
+  </header>
+  
+   <aside class="sidebar" id="sidebar">
+    <a href="#" class="sidebar__link">Inicio</a>
+    <a href="#" class="sidebar__link">Mi lista</a>
+    <a href="#" class="sidebar__link">Ajustes</a>
+  </aside>
+
+    <main class="container">
+
+     <section class="card">
+      <h2>Añadir</h2>
+
+      <form id="addForm" class="form">
+        <label>
+          Título
+          <input id="titleInput" type="text" placeholder="Ej: The Witcher 3" />
+        </label>
+
+        <label>
+          Tipo
+          <select id="typeSelect">
+            <option value="Pelicula">Película</option>
+            <option value="Serie">Serie</option>
+            <option value="Juego">Juego</option>
+          </select>
+        </label>
+
+        <label>
+          Estado
+          <select id="statusSelect">
+            <option value="Pendiente">Pendiente</option>
+            <option value="Visto">Visto</option>
+          </select>
+        </label>
+
+        <label>
+          Puntuación (0-10)
+          <input id="ratingInput" type="number" min="0" max="10" value="0" />
+        </label>
+
+        <button class="btn" type="submit">Añadir</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Buscar y filtrar</h2>
+
+      <div class="filters">
+        <input id="searchInput" type="text" placeholder="Buscar por título..." />
+
+        <select id="filterType">
+          <option value="ALL">Todos los tipos</option>
+          <option value="Pelicula">Película</option>
+          <option value="Serie">Serie</option>
+          <option value="Juego">Juego</option>
+        </select>
+
+        <select id="filterStatus">
+          <option value="ALL">Todos los estados</option>
+          <option value="Pendiente">Pendiente</option>
+          <option value="Visto">Visto</option>
+        </select>
+
+        <button class="btn btn--ghost" id="clearFilters" type="button">Limpiar filtros</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="list-head">
+        <h2>Mi lista</h2>
+        <p id="counter" class="counter">Mostrando 0 de 0</p>
+      </div>
+
+      <div id="cards" class="grid"></div>
+    </section>
+
+  </main>
+
+  <div class="modal hidden" id="modal">
+    <div class="modal__overlay" id="modalOverlay"></div>
+    <div class="modal__box">
+      <h3>Confirmar</h3>
+      <p id="modalText">¿Seguro?</p>
+      <div class="modal__actions">
+        <button class="btn btn--ghost" id="cancelDelete" type="button">Cancelar</button>
+        <button class="btn btn--danger" id="confirmDelete" type="button">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
