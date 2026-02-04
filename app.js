@@ -19,6 +19,7 @@ const titleInput = document.getElementById("titleInput");
 const typeSelect = document.getElementById("typeSelect");
 const statusSelect = document.getElementById("statusSelect");
 const ratingInput = document.getElementById("ratingInput");
+const reviewInput = document.getElementById("reviewInput");
 
 const searchInput = document.getElementById("searchInput");
 const filterType = document.getElementById("filterType");
@@ -59,7 +60,7 @@ function render(list) {
       <div class="badges">
         <span class="badge">${it.type}</span>
         <span class="badge">${it.status}</span>
-        <span class="badge">⭐ ${it.rating}/10</span>
+        ${it.rating !== null ? `<span class="badge">⭐ ${it.rating}/10</span>` : ""}
       </div>
 
       <div class="actions">
@@ -111,8 +112,13 @@ function closeModal() {
 
 const menuBtn = document.getElementById("menuBtn");
 const nav = document.getElementById("nav");
-menuBtn.addEventListener("click", () => nav.classList.toggle("open"));
-
+menuBtn.addEventListener("click", () => {
+  console.log("CLICK MENU ✅");
+  nav.classList.toggle("open");
+  console.log("nav classes:", nav.className);
+});
+console.log("menuBtn:", menuBtn);
+console.log("nav:", nav);
 searchInput.addEventListener("input", applyFilters);
 filterType.addEventListener("change", applyFilters);
 filterStatus.addEventListener("change", applyFilters);
@@ -133,14 +139,18 @@ addForm.addEventListener("submit", (e) => {
     return;
   }
 
-  const newItem = {
-    id: String(Date.now()),
-    title,
-    type: typeSelect.value,
-    status: statusSelect.value,
-    rating: Number(ratingInput.value) || 0,
-    createdAt: Date.now(),
-  };
+  const status = statusSelect.value;
+
+const newItem = {
+  id: String(Date.now()),
+  title,
+  type: typeSelect.value,
+  status,
+  rating: status === "Visto" ? (Number(ratingInput.value) || 0) : null,
+  review: status === "Visto" && reviewInput.value.trim() ? reviewInput.value.trim() : null,
+
+  createdAt: Date.now(),
+};
 
   items.push(newItem);
   saveItems(items);
@@ -148,6 +158,8 @@ addForm.addEventListener("submit", (e) => {
 
   addForm.reset();
   ratingInput.value = 0;
+  reviewInput.value = "";
+
 });
 
 cardsEl.addEventListener("click", (e) => {
@@ -162,15 +174,40 @@ cardsEl.addEventListener("click", (e) => {
 
   const id = card.dataset.id;
 
-  if (action === "toggle") {
-    items = items.map((it) => {
-      if (it.id !== id) return it;
-      return { ...it, status: it.status === "Visto" ? "Pendiente" : "Visto" };
-    });
+ if (action === "toggle") {
+  const current = items.find((it) => it.id === id);
+  if (!current) return;
+
+  if (current.status === "Pendiente") {
+    const inputRating = prompt(`Puntúa "${current.title}" (0-10):`, "7");
+    if (inputRating === null) return;
+
+    let rating = Number(inputRating);
+    if (Number.isNaN(rating)) rating = 0;
+    rating = Math.max(0, Math.min(10, rating));
+
+    const inputReview = prompt(`¿Qué te ha parecido "${current.title}"? (opcional)`, current.review ?? "");
+    if (inputReview === null) return;
+
+    const review = inputReview.trim() ? inputReview.trim() : null;
+
+    items = items.map((it) =>
+      it.id !== id ? it : { ...it, status: "Visto", rating, review }
+    );
 
     saveItems(items);
     applyFilters();
+    return;
   }
+
+  items = items.map((it) =>
+    it.id !== id ? it : { ...it, status: "Pendiente", rating: null, review: null }
+  );
+
+  saveItems(items);
+  applyFilters();
+  return;
+}
 
   if (action === "delete") {
     const item = items.find((it) => it.id === id);
@@ -197,7 +234,7 @@ if (items.length === 0) {
       title: "Ej: The Witcher 3",
       type: "Juego",
       status: "Pendiente",
-      rating: 10,
+      rating: null,
       createdAt: Date.now(),
     },
   ];

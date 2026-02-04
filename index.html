@@ -16,23 +16,24 @@
     <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
 
     <nav class="nav" id="nav">
-      <a href="#" class="nav__link">Inicio</a>
-      <a href="#" class="nav__link">Mi lista</a>
-      <a href="#" class="nav__link">Ajustes</a>
-    </nav>
+  <a href="#inicio" class="nav__link">Inicio</a>
+  <a href="#mi-lista" class="nav__link">Mi lista</a>
+  <a href="#ajustes" class="nav__link">Ajustes</a>
+</nav>
   </header>
   
-   <aside class="sidebar" id="sidebar">
-    <a href="#" class="sidebar__link">Inicio</a>
-    <a href="#" class="sidebar__link">Mi lista</a>
-    <a href="#" class="sidebar__link">Ajustes</a>
-  </aside>
+   <aside class="sidebar">
+  <a href="#inicio" class="sidebar__link">Inicio</a>
+  <a href="#mi-lista" class="sidebar__link">Mi lista</a>
+  <a href="#ajustes" class="sidebar__link">Ajustes</a>
+</aside>
 
     <main class="container">
 
-     <section class="card">
-      <h2>Añadir</h2>
-
+     <section class="card" id="inicio">
+  <h2>Añadir</h2>
+  ...
+</section>
       <form id="addForm" class="form">
         <label>
           Título
@@ -88,14 +89,14 @@
       </div>
     </section>
 
-    <section class="card">
-      <div class="list-head">
-        <h2>Mi lista</h2>
-        <p id="counter" class="counter">Mostrando 0 de 0</p>
-      </div>
+    <section class="card" id="mi-lista">
+  <div class="list-head">
+    <h2>Mi lista</h2>
+    <p id="counter" class="counter">Mostrando 0 de 0</p>
+  </div>
 
-      <div id="cards" class="grid"></div>
-    </section>
+  <div id="cards" class="grid"></div>
+</section>
 
   </main>
 
@@ -110,6 +111,12 @@
       </div>
     </div>
   </div>
+
+  <section class="card" id="ajustes">
+  <h2>Ajustes</h2>
+  <p>Próximamente...</p>
+</section>
+
 
   <script src="./app.js"></script>
 </body>
