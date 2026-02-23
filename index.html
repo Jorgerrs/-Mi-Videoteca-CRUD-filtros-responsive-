@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -7,41 +8,50 @@
 </head>
 <body>
 
- <header class="navbar">
+  <header class="navbar">
     <div class="navbar__left">
       <span class="logo">🎬</span>
-      <h1 class="brand">Mi Videoteca</h1>
+      <h1 class="brand" id="appTitle">Mi Videoteca</h1>
     </div>
 
     <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
 
     <nav class="nav" id="nav">
-  <a href="#inicio" class="nav__link">Inicio</a>
-  <a href="#mi-lista" class="nav__link">Mi lista</a>
-  <a href="#ajustes" class="nav__link">Ajustes</a>
-</nav>
+      <button class="nav__link" data-go="home" type="button">Inicio</button>
+      <button class="nav__link" data-go="add" type="button">Añadir</button>
+      <button class="nav__link" data-go="list" type="button">Mi lista</button>
+      <button class="nav__link" data-go="settings" type="button">Ajustes</button>
+    </nav>
   </header>
+
+  <main class="container">
+
+    <section class="card view" id="view-home">
+      <h2 class="section-title" id="homeTitle">Mi Videoteca</h2>
+      <p class="muted" id="homeSubtitle">Elige una opción 👇</p>
+
+      <div class="home-actions">
+        <button class="btn home-btn" data-go="add" type="button" id="btnAdd">➕ Añadir</button>
+        <button class="btn btn--ghost home-btn" data-go="list" type="button" id="btnList">📚 Mi lista</button>
+        <button class="btn btn--ghost home-btn" data-go="settings" type="button" id="btnSettings">⚙️ Ajustes</button>
+      </div>
+    </section>
+
   
-   <aside class="sidebar">
-  <a href="#inicio" class="sidebar__link">Inicio</a>
-  <a href="#mi-lista" class="sidebar__link">Mi lista</a>
-  <a href="#ajustes" class="sidebar__link">Ajustes</a>
-</aside>
+    <section class="card view hidden" id="view-add">
+      <div class="view-head">
+        <h2 class="section-title" id="addTitle">Añadir</h2>
+        <button class="btn btn--ghost" type="button" data-go="home" id="backFromAdd">⬅ Volver</button>
+      </div>
 
-    <main class="container">
-
-     <section class="card" id="inicio">
-  <h2>Añadir</h2>
-  ...
-</section>
       <form id="addForm" class="form">
         <label>
-          Título
+          <span id="lblTitle">Título</span>
           <input id="titleInput" type="text" placeholder="Ej: The Witcher 3" />
         </label>
 
         <label>
-          Tipo
+          <span id="lblType">Tipo</span>
           <select id="typeSelect">
             <option value="Pelicula">Película</option>
             <option value="Serie">Serie</option>
@@ -50,60 +60,100 @@
         </label>
 
         <label>
-          Estado
+          <span id="lblStatus">Estado</span>
           <select id="statusSelect">
             <option value="Pendiente">Pendiente</option>
             <option value="Visto">Visto</option>
           </select>
         </label>
 
-        <label>
-          Puntuación (0-10)
-          <input id="ratingInput" type="number" min="0" max="10" value="0" />
-        </label>
+        <div id="seenFields" class="seen-fields">
+          <label>
+            <span id="lblRating">Puntuación (0-10)</span>
+            <input id="ratingInput" type="number" min="0" max="10" value="7" />
+          </label>
 
-        <button class="btn" type="submit">Añadir</button>
+          <label>
+            <span id="lblReview">Reseña (opcional)</span>
+            <textarea id="reviewInput" rows="3" placeholder="¿Qué te ha parecido?"></textarea>
+          </label>
+        </div>
+
+        <button class="btn" type="submit" id="btnSubmit">Añadir</button>
       </form>
     </section>
 
-    <section class="card">
-      <h2>Buscar y filtrar</h2>
-
-      <div class="filters">
-        <input id="searchInput" type="text" placeholder="Buscar por título..." />
-
-        <select id="filterType">
-          <option value="ALL">Todos los tipos</option>
-          <option value="Pelicula">Película</option>
-          <option value="Serie">Serie</option>
-          <option value="Juego">Juego</option>
-        </select>
-
-        <select id="filterStatus">
-          <option value="ALL">Todos los estados</option>
-          <option value="Pendiente">Pendiente</option>
-          <option value="Visto">Visto</option>
-        </select>
-
-        <button class="btn btn--ghost" id="clearFilters" type="button">Limpiar filtros</button>
+    <section class="card view hidden" id="view-list">
+      <div class="view-head">
+        <div>
+          <h2 class="section-title" id="listTitle">Mi lista</h2>
+          <p id="counter" class="counter">Mostrando 0 de 0</p>
+        </div>
+        <button class="btn btn--ghost" type="button" data-go="home" id="backFromList">⬅ Volver</button>
       </div>
+
+      <section class="card card--inner">
+        <h3 class="inner-title" id="filtersTitle">Buscar y filtrar</h3>
+
+        <div class="filters">
+          <input id="searchInput" type="text" placeholder="Buscar por título..." />
+
+          <select id="filterType">
+            <option value="ALL">Todos los tipos</option>
+            <option value="Pelicula">Película</option>
+            <option value="Serie">Serie</option>
+            <option value="Juego">Juego</option>
+          </select>
+
+          <select id="filterStatus">
+            <option value="ALL">Todos los estados</option>
+            <option value="Pendiente">Pendiente</option>
+            <option value="Visto">Visto</option>
+          </select>
+
+          <button class="btn btn--ghost" id="clearFilters" type="button">Limpiar filtros</button>
+        </div>
+      </section>
+
+      <div id="cards" class="grid"></div>
     </section>
 
-    <section class="card" id="mi-lista">
-  <div class="list-head">
-    <h2>Mi lista</h2>
-    <p id="counter" class="counter">Mostrando 0 de 0</p>
-  </div>
+  
+    <section class="card view hidden" id="view-settings">
+      <div class="view-head">
+        <h2 class="section-title" id="settingsTitle">Ajustes</h2>
+        <button class="btn btn--ghost" type="button" data-go="home" id="backFromSettings">⬅ Volver</button>
+      </div>
 
-  <div id="cards" class="grid"></div>
-</section>
+      <div class="settings">
+        <div class="setting-row">
+          <label for="themeSelect" id="lblTheme">Tema</label>
+          <select id="themeSelect">
+            <option value="blue">Azul</option>
+            <option value="purple">Morado</option>
+            <option value="green">Verde</option>
+            <option value="red">Rojo</option>
+          </select>
+        </div>
+
+        <div class="setting-row">
+          <label for="langSelect" id="lblLang">Idioma</label>
+          <select id="langSelect">
+            <option value="es">Español</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+
+        <p class="muted" id="settingsHint">Los cambios se guardan automáticamente.</p>
+      </div>
+    </section>
 
   </main>
 
   <div class="modal hidden" id="modal">
     <div class="modal__overlay" id="modalOverlay"></div>
     <div class="modal__box">
-      <h3>Confirmar</h3>
+      <h3 id="modalTitle">Confirmar</h3>
       <p id="modalText">¿Seguro?</p>
       <div class="modal__actions">
         <button class="btn btn--ghost" id="cancelDelete" type="button">Cancelar</button>
@@ -111,13 +161,6 @@
       </div>
     </div>
   </div>
-
-  <section class="card" id="ajustes">
-  <h2>Ajustes</h2>
-  <p>Próximamente...</p>
-</section>
-
-
   <script src="./app.js"></script>
 </body>
 </html>
